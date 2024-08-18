@@ -1,16 +1,16 @@
 # Simple-ETL-process
 
-Introduction
+# Introduction
 Extract, Transform and Load(ETL) operations are of extreme importance in the role of a Data Engineer. A data engineer extracts data from multiple sources and different file formats, transforms the extracted data to predefined settings and then loads the data to a database for further processing.
 
-Objectives
+# Objectives
 After completing this project, I will be able to:
 - Read CSV, JSON, and XML file types.
 - Extract the required data from different file types.
 - Transform data to the required format.
 - Save the transformed data in a ready-to-load format, which can be loaded into an RDBMS
 
-Initial Steps
+# Initial Steps
 The first step in this process is to create a new file in the default project folder in the IDE. To create the new file, I navigate to the File tab in the menu bar and click New File. Save this file in the path \home\project as etl_code.py. These steps are shown in the following images.
 
 1. Create New File
@@ -23,7 +23,7 @@ The first step in this process is to create a new file in the default project fo
 
 3. The file is now ready in the project folder and further steps will be done in the file.
 
-Gather the data files
+# Gather the data files
 Before I start the extraction of data, I need the files containing the data to be available in the project folder.
 
 1. Open a new terminal window.
@@ -38,7 +38,7 @@ unzip source.zip
 4. After the files are unzipped, it looks like this
 [Image]
 
-Importing Libraries and setting paths
+# Importing Libraries and setting paths
 The required files are now available in the project folder. I will extract data from CSV, JSON, and XML formats. First, I need to import the appropriate Python libraries to use the relevant functions.
 
 The xml library can be used to parse the information from an .xml file format. The .csv and .json file formats can be read using the pandas library. I will use the pandas library to create a data frame format that will store the extracted data from any file. 
@@ -60,7 +60,7 @@ I also require two file paths that will be available globally in the code for al
 log_file = 'log_file.txt'
 target_file = 'transformed_data.csv'
 
-1. Task 1: Extraction
+# 1. Task 1: Extraction
 Next, I will develop the functions to extract the data from different file formats. As there will be different functions for the file formats, I'll have to write one function each for the .csv, .json, and the .xml filetypes.
 I can name these three functions as extract_from_csv(), extract_from_json(), and extract_from_xml(). I need to pass the data file as an argument, file_to_process, to each function. 
 
@@ -108,7 +108,7 @@ def extract():
 
 After adding these functions to etl_code.py I completed the implementation of the extraction part.
 
-2. Task 2 - Transformation
+# 2. Task 2 - Transformation
 The height in the extracted data is in inches, and the weight is in pounds. However, for my application, the height is required to be in meters, and the weight is required to be in kilograms, rounded to two decimal places. Therefore, I need to write the function to perform the unit conversion for the two parameters.
 The name of this function will be transform(), and it will receive the extracted dataframe as the input.
 Since the dataframe is in the form of a dictionary with three keys, "name", "height", and "weight", each of them having a list of values, I can apply the transform function on the entire list in one go.
@@ -125,7 +125,7 @@ def transform(data):
     return data
 The output of this function will now be a dataframe where the "height" and "weight" parameters will be modified to the required format.
 
-3. Task 3 - Loading and Logging
+# 3. Task 3 - Loading and Logging
 I need to load the transformed data to a CSV file that I can use to load to a database as per requirement. 
 To load the data, I need a function load_data() that accepts the transformed data as a dataframe and the target_file path. I need to use the to_csv attribute of the dataframe in the function as follows:
 def load_data(target_file, transformed_data):
@@ -142,7 +142,7 @@ def log_progress(message):
 
 After I add these functions to etl_code.py, I will complete the implementation of the loading and logging operations. With this, all the functions for Extract, Transform, and Load (ETL) are ready for testing.
 
-Testing ETL operations and log progress
+# Testing ETL operations and log progress
 Now, I test the functions I have developed so far and log the progress along the way.
 # Log the initialization of the ETL process 
 log_progress("ETL Job Started") 
@@ -173,14 +173,14 @@ log_progress("Load phase Ended")
 # Log the completion of the ETL process 
 log_progress("ETL Job Ended") 
 
-Execution of code
+# Execution of code
 Execute etl_code.py from a terminal shell using the command
 python3.11 etl_code.py 
 [Image]
 The contents of the log file will appear as shown in the image below.
 [Image]
 
-Full code
+# Full code
 import glob
 import pandas as pd 
 import xml.etree.ElementTree as ET 
