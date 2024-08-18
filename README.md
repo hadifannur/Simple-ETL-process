@@ -1,5 +1,5 @@
 # Simple-ETL-process
-```python
+
 # Introduction
 Extract, Transform and Load(ETL) operations are of extreme importance in the role of a Data Engineer. A data engineer extracts data from multiple sources and different file formats, transforms the extracted data to predefined settings and then loads the data to a database for further processing.
 
@@ -143,6 +143,7 @@ def log_progress(message):
 After I add these functions to etl_code.py, I will complete the implementation of the loading and logging operations. With this, all the functions for Extract, Transform, and Load (ETL) are ready for testing.
 
 # Testing ETL operations and log progress
+```python
 Now, I test the functions I have developed so far and log the progress along the way.
 
 # Log the initialization of the ETL process 
@@ -173,7 +174,7 @@ log_progress("Load phase Ended")
  
 # Log the completion of the ETL process 
 log_progress("ETL Job Ended") 
-
+```
 # Execution of code
 Execute etl_code.py from a terminal shell using the command
 python3.11 etl_code.py 
