@@ -30,12 +30,16 @@ Before I start the extraction of data, I need the files containing the data to b
 [Image]
 
 2. Download the zip file containing the required data in multiple formats.
+```bash
 wget https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-PY0221EN-SkillsNetwork/labs/module%206/Lab%20-%20Extract%20Transform%20Load/data/source.zip
+```
 
-3. Unzip the downloaded files.
+4. Unzip the downloaded files.
+```bash
 unzip source.zip
+```
 
-4. After the files are unzipped, it looks like this
+6. After the files are unzipped, it looks like this
 [Image]
 
 # Importing Libraries and setting paths
@@ -195,7 +199,9 @@ log_progress("ETL Job Ended")
 ```
 # Execution of code
 Execute etl_code.py from a terminal shell using the command
-python3.11 etl_code.py 
+```bash
+python3.11 etl_code.py
+```
 [Image]
 The contents of the log file will appear as shown in the image below.
 [Image]
