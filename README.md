@@ -50,32 +50,41 @@ While glob, xml, and datetime are inbuilt features of Python, I need to install 
 python3.11 -m pip install pandas
 
 After the installation is complete, I can import all the libraries into etl_code.py using the following commands.
+```python
 import glob
 import pandas as pd 
 import xml.etree.ElementTree as ET 
 from datetime import datetime
+```
 
 Note that I import only the ElementTree function from the xml.etree library because I require that function to parse the data from and XML file format.
 I also require two file paths that will be available globally in the code for all functions. These are transformed_data.csv, to store the final output data that I can load to a database, and log_file.txt, that stores all the logs.
+```python
 log_file = 'log_file.txt'
 target_file = 'transformed_data.csv'
+```
 
 # 1. Task 1: Extraction
 Next, I will develop the functions to extract the data from different file formats. As there will be different functions for the file formats, I'll have to write one function each for the .csv, .json, and the .xml filetypes.
 I can name these three functions as extract_from_csv(), extract_from_json(), and extract_from_xml(). I need to pass the data file as an argument, file_to_process, to each function. 
 
 To extract from a CSV file, I can define the function extract_from_csv() as follows using the pandas function read_csv:
+```python
 def extract_from_csv(file_to_process):
     dataframe = pd.read_csv(file_to_process)
     return dataframe
+```
 
 To extract from a JSON file, I can define the function extract_from_json() using the pandas function read_json. It requires extra argument lines=True to enable the function to read the file as a JSON object on line to line basis as follows
+```python
 def extract_from_json(file_to_process):
     dataframe = pd.read_json(file_to_process, lines=True)
     return dataframe
+```
 
 To extract from an XML file, I need first to parse the data from the file using the ElemetTree function. I can then extract relevant information from this data and append it to a pandas dataframe as follows.
 I must know the headers of the extracted data to write this function. In this data, I extract "name", "height", and "weight" headers for different people. This function can be written as follows:
+```python
 def extract_from_xml(file_to_process):
     dataframe = pd.Dataframe(columns=["name", "height", "weight"])
     tree = ET.parse(file_to_process)
@@ -87,8 +96,10 @@ def extract_from_xml(file_to_process):
         dataframe = pd.concat([dataframe, pd.DataFrame([{"name": name, "height": height, "weight": weight}])], ignore_index=True)
     
     return dataframe;
+```
 
 Now I need a function to identify which function to call on basis of the filetype of the data file. To call the relevant function, write a function extract, which uses the glob library to identify the filetype. This can be done as follows:
+```python
 def extract():
     extracted_data = pd.Dataframe(columns = ["header","height","weight"]) # create an empty data frame to hold extracted data 
     
@@ -105,6 +116,7 @@ def extract():
         extracted_data = pd.concat([extracted_data, pd.Dataframe(extract_from_xml(xmlfile))], ignore_index=True)
 
     return extracted_data
+```
 
 After adding these functions to etl_code.py I completed the implementation of the extraction part.
 
@@ -113,6 +125,7 @@ The height in the extracted data is in inches, and the weight is in pounds. Howe
 The name of this function will be transform(), and it will receive the extracted dataframe as the input.
 Since the dataframe is in the form of a dictionary with three keys, "name", "height", and "weight", each of them having a list of values, I can apply the transform function on the entire list in one go.
 The function can be written as follows:
+```python
 def transform(data):
     """Convert inches to meters and round off to two decimals
     1 inch is 0.0254 meters"""
@@ -123,29 +136,34 @@ def transform(data):
     data['weight'] = round(data.weight * 0.45359237,2)
     
     return data
+```
 The output of this function will now be a dataframe where the "height" and "weight" parameters will be modified to the required format.
 
 # 3. Task 3 - Loading and Logging
 I need to load the transformed data to a CSV file that I can use to load to a database as per requirement. 
 To load the data, I need a function load_data() that accepts the transformed data as a dataframe and the target_file path. I need to use the to_csv attribute of the dataframe in the function as follows:
+```python
 def load_data(target_file, transformed_data):
     transformed_data.to_csv(target_file)
+```
 
 Finally, I need to implement the logging operation to record the progress of the different operations. For this operation, I need to record a message, along with its timestamp, in the log_file.
 To record the message, I need to implement a function log_progress() that accepts the log message as the argument. The function captures the current data and time using the datetime function from the datetime library. The use of this function requires the definition of a date-time format, and you need to convert the timestamp to a string format using the strftime attribute. The following code creates the log operation:
+```python
 def log_progress(message):
     timestamp_format = '%Y-%h-%d-%H:%M:%S' # Year-Monthname-Day-Hour-Minute-Second
     now = datetime.now() # get current timestamp
     timestamp = now.strftime(timestamp_format)
     with open(log_file, "a") as f:
         f.write(timestamp + ',' + message + '\n'
+```
 
 After I add these functions to etl_code.py, I will complete the implementation of the loading and logging operations. With this, all the functions for Extract, Transform, and Load (ETL) are ready for testing.
 
 # Testing ETL operations and log progress
-```python
-Now, I test the functions I have developed so far and log the progress along the way.
 
+Now, I test the functions I have developed so far and log the progress along the way.
+```python
 # Log the initialization of the ETL process 
 log_progress("ETL Job Started") 
  
@@ -183,6 +201,7 @@ The contents of the log file will appear as shown in the image below.
 [Image]
 
 # Full code
+```python
 import glob
 import pandas as pd 
 import xml.etree.ElementTree as ET 
