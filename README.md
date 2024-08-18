@@ -144,6 +144,8 @@ After I add these functions to etl_code.py, I will complete the implementation o
 
 # Testing ETL operations and log progress
 Now, I test the functions I have developed so far and log the progress along the way.
+
+```python
 # Log the initialization of the ETL process 
 log_progress("ETL Job Started") 
  
